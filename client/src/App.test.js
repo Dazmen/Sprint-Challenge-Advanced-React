@@ -1,9 +1,27 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render, fireEvent } from '@testing-library/react';
 import App from './App';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
+test('renders without crashing', () => {
+  render(<App />)
 });
+
+it('Dark Mode Button renders and works', () => {
+  const {getByTestId} = render(<App />);
+
+  const button = getByTestId(/darkmodeswitch/i);
+  fireEvent.click(button)
+})
+
+test('Nav Bar renders', () => {
+  const {getByTestId} = render(<App />);
+
+  getByTestId(/navbar/i);
+})
+
+test('List of Players Renders', () => {
+  const {getByTestId} = render(<App />);
+
+  getByTestId(/playerlist/i);
+})
+
