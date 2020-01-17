@@ -1,26 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
+import Axios from 'axios';
 import './App.css';
+import PlayerList from './components/playerList';
+import NavBar from './components/navBar';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+  state = {
+    wwcPlayers: []
+  };
+
+  componentDidMount(){
+    Axios
+      .get('http://localhost:5000/api/players')
+      .then(res => {
+        console.log('player data recieved', res);
+        this.setState({wwcPlayers: res.data})
+      })
+      .catch(err => {
+        console.log('Player Data was not fetched', err);
+      })
+  };
+
+  render(){
+    return (
+      <div className="App">
+        <NavBar />
+        <PlayerList wwcPlayers={this.state.wwcPlayers}/>
+      </div>
+    );
+  }
 }
 
 export default App;
